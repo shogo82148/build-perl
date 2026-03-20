@@ -1,0 +1,53 @@
+help: ## show this text
+	# from http://postd.cc/auto-documented-makefile/
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+IMAGE_NAME = carton-packer
+
+.PHONY: all
+all: carton
+
+.PHONY: image
+image: .image.exists ## build docker image of packing environment
+.DELETE_ON_ERROR: .image.exists
+.image.exists: Dockerfile cpanfile cpanfile.snapshot build.pl
+	touch .image.exists
+	-docker rmi $(IMAGE_NAME)
+	docker build -t $(IMAGE_NAME) .
+
+carton: .deps.exists build.pl ## generate fat-packed carton
+	cat build.pl | docker run --rm -i --volumes-from $(IMAGE_NAME)-deps $(IMAGE_NAME) perl -
+	docker cp $(IMAGE_NAME)-deps:/tmp/carton/carton carton
+	
+.PHONY: deps
+deps: .deps.exists ## install dependencies
+.DELETE_ON_ERROR: .deps.exists
+.deps.exists: .image.exists cpanfile.snapshot
+	touch .deps.exists
+	-docker rm $(IMAGE_NAME)-deps
+	docker create -v /tmp/carton --name $(IMAGE_NAME)-deps $(IMAGE_NAME) /bin/true
+	docker cp cpanfile $(IMAGE_NAME)-deps:/tmp/carton/cpanfile
+	docker cp cpanfile.snapshot $(IMAGE_NAME)-deps:/tmp/carton/cpanfile.snapshot
+	docker run --rm --volumes-from $(IMAGE_NAME)-deps $(IMAGE_NAME) carton install --deployment
+	docker cp $(IMAGE_NAME)-deps:/tmp/carton/local .
+
+.PHONY: update
+update: .image.exists ## download dependencies and update cpanfile.snapshot
+	-docker rm $(IMAGE_NAME)-update
+	docker create -v /tmp/carton --name $(IMAGE_NAME)-update $(IMAGE_NAME) /bin/true
+	docker cp cpanfile $(IMAGE_NAME)-update:/tmp/carton/cpanfile
+	docker run --rm --volumes-from $(IMAGE_NAME)-update $(IMAGE_NAME) carton install
+	docker cp $(IMAGE_NAME)-update:/tmp/carton/cpanfile.snapshot cpanfile.snapshot
+	-docker rm $(IMAGE_NAME)-update
+
+.PHONY: install
+install: all ## installs into the bin directory of this repository
+	cp carton ../../
+
+.PHONY: clean
+clean:
+	rm -f carton carton.bat
+	rm -f .image.exists .deps.exists
+	-docker rm $(IMAGE_NAME)-tmp
+	-docker rm $(IMAGE_NAME)-update
+	-docker rmi $(IMAGE_NAME)
