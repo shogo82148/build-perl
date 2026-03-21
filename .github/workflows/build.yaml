@@ -242,7 +242,7 @@ jobs:
         working-directory: windows
         shell: cmd
         run: |
-          perl build.pl
+          ../carton exec -- perl build.pl
       - name: upload the binary to release
         shell: bash
         run: |
@@ -290,7 +290,7 @@ jobs:
         working-directory: windows
         shell: cmd
         run: |
-          perl build.pl
+          ../carton exec -- perl build.pl
       - name: upload the binary to release
         shell: bash
         run: |
