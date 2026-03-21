@@ -107,7 +107,7 @@ sub cpan_install {
         $filename = $1
     }
 
-    info "installing $name from $url";
+    say "installing $name from $url";
     chdir $tmpdir or die "failed to cd $tmpdir: $!";
     execute_or_die('curl', '--retry', '3', '-sSL', $url, '-o', $filename);
     execute_or_die('tar', 'xvf', $filename);
