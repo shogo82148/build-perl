@@ -82,6 +82,7 @@ sub perl_release {
 }
 
 sub execute_or_die {
+    say "::debug::executing @_";
     my $code = system(@_);
     if ($code != 0) {
         my $cmd = join ' ', @_;
@@ -279,7 +280,8 @@ sub run {
     {
         say "::group::archiving perl-$version";
         my $dir = pushd($install_dir);
-        execute_or_die("7z", "a", File::Spec->catfile($tmpdir, "perl.zip"), ".");
+        my $dist = File::Spec->catfile($tmpdir, "perl-$version".($thread ? "-thr" : "")."-win32-x64.zip");
+        execute_or_die("7z", "a", $dist, ".");
         say "::endgroup::";
     }
 }

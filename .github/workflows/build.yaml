@@ -1,0 +1,254 @@
+name: build Perl binaries
+
+on:
+  workflow_dispatch:
+    inputs:
+      perl-versions:
+        description: perl versions to build (JSON Array)
+        required: true
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - id: set-matrix
+        run: |
+          {
+            echo "suffix=$(date +%Y%m%d%H%M%S)"
+            echo "matrix-releases=$(printenv PERL_VERSIONS | jq -c '{perl: .}')"
+            echo "matrix-linux=$(printenv PERL_VERSIONS | jq -c '{perl: . , os: ["ubuntu-22.04", "ubuntu-22.04-arm"]}')"
+            echo "matrix-darwin=$(printenv PERL_VERSIONS | jq -c '{perl: ., os: ["macos-15-intel", "macos-15"]}')"
+            echo "matrix-windows=$(printenv PERL_VERSIONS | jq -c '{perl: .}')"
+          } >> "$GITHUB_OUTPUT"
+        env:
+          PERL_VERSIONS: ${{ github.event.inputs.perl-versions }}
+    outputs:
+      suffix: ${{ steps.set-matrix.outputs.suffix }}
+      matrix-releases: ${{ steps.set-matrix.outputs.matrix-releases }}
+      matrix-linux: ${{ steps.set-matrix.outputs.matrix-linux }}
+      matrix-darwin: ${{ steps.set-matrix.outputs.matrix-darwin }}
+      matrix-windows: ${{ steps.set-matrix.outputs.matrix-windows }}
+
+  create-releases:
+    runs-on: ubuntu-latest
+    needs: list
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-releases) }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: create release
+        run: |
+          gh release create "perl-$PERL_VERSION-$SUFFIX" --draft --title "Perl $PERL_VERSION" --notes "Perl $PERL_VERSION built by shogo82148/build-perl"
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-linux:
+    name: build Linux Perl non-threaded
+    needs: [list, create-releases]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-linux) }}
+    env:
+      PERL_VERSION: ${{ matrix.perl }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Host perl -V
+        run: perl -V
+      - name: gcc --version
+        run: gcc --version
+      - name: build OpenSSL
+        run: |
+          ./build-openssl-linux.sh
+      - name: install dependencies
+        working-directory: linux
+        run: |
+          ../carton install --deployment
+      - name: build Perl
+        working-directory: linux
+        run: |
+          ../carton exec -- perl build.pl
+
+  build-linux-thr:
+    name: build Linux Perl with multi-threading
+    needs: [list, create-releases]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-linux) }}
+    env:
+      PERL_VERSION: ${{ matrix.perl }}
+      PERL_MULTI_THREAD: "1"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Host perl -V
+        run: perl -V
+      - name: gcc --version
+        run: gcc --version
+      - name: build OpenSSL
+        run: |
+          ./build-openssl-linux.sh
+      - name: install dependencies
+        working-directory: linux
+        run: |
+          ../carton install --deployment
+      - name: build Perl
+        working-directory: linux
+        run: |
+          ../carton exec -- perl build.pl
+
+  build-darwin:
+    name: build Darwin Perl non-threaded
+    needs: [list, create-releases]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-darwin) }}
+    env:
+      PERL_VERSION: ${{ matrix.perl }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Host perl -V
+        run: perl -V
+      - name: gcc --version
+        run: gcc --version
+      - name: build OpenSSL
+        run: |
+          ./build-openssl-darwin.sh
+      - name: install dependencies
+        working-directory: darwin
+        run: |
+          ../carton install --deployment
+      - name: build Perl
+        working-directory: darwin
+        run: |
+          ../carton exec -- perl build.pl
+
+  build-darwin-thr:
+    name: build Darwin Perl with multi-threading
+    needs: [list, create-releases]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-darwin) }}
+    env:
+      PERL_VERSION: ${{ matrix.perl }}
+      PERL_MULTI_THREAD: "1"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Host perl -V
+        run: perl -V
+      - name: gcc --version
+        run: gcc --version
+      - name: build OpenSSL
+        run: |
+          ./build-openssl-darwin.sh
+      - name: install dependencies
+        working-directory: darwin
+        run: |
+          ../carton install --deployment
+      - name: build Perl
+        working-directory: darwin
+        run: |
+          ../carton exec -- perl build.pl
+
+  build-windows:
+    name: build Windows Perl non-threaded
+    needs: [list, create-releases]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-windows) }}
+    env:
+      PERL_VERSION: ${{ matrix.perl }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2.30.0
+        with:
+          install: make mingw-w64-x86_64-gcc nasm
+      - name: Host perl -V
+        run: perl -V
+      - name: gcc --version
+        run: gcc --version
+      - name: build OpenSSL
+        run: |
+          ./build-openssl-win32.sh
+      - name: install dependencies
+        working-directory: windows
+        run: |
+          ../carton install --deployment
+      - name: build Perl
+        working-directory: windows
+        run: |
+          ../carton exec -- perl build.pl
+
+  build-windows-thr:
+    name: build Windows Perl with multi-threading
+    needs: [list, create-releases]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-windows) }}
+    env:
+      PERL_VERSION: ${{ matrix.perl }}
+      PERL_MULTI_THREAD: "1"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2.30.0
+        with:
+          install: make mingw-w64-x86_64-gcc nasm
+      - name: Host perl -V
+        run: perl -V
+      - name: gcc --version
+        run: gcc --version
+      - name: build OpenSSL
+        run: |
+          ./build-openssl-win32.sh
+      - name: install dependencies
+        working-directory: windows
+        run: |
+          ../carton install --deployment
+      - name: build Perl
+        working-directory: windows
+        run: |
+          ../carton exec -- perl build.pl
+
+  publish-releases:
+    runs-on: ubuntu-latest
+    needs:
+      - list
+      - build-linux
+      - build-linux-thr
+      - build-darwin
+      - build-darwin-thr
+      - build-windows
+      - build-windows-thr
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.list.outputs.matrix-releases) }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: publish release
+        run: |
+          gh release edit "perl-$PERL_VERSION-$SUFFIX" --draft=false
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
