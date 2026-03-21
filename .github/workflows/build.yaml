@@ -235,12 +235,12 @@ jobs:
           ./build-openssl-win32.sh
       - name: install dependencies
         working-directory: windows
-        shell: cmd
+        shell: "msys2 {0}"
         run: |
           ../carton install --deployment
       - name: build Perl
         working-directory: windows
-        shell: cmd
+        shell: "msys2 {0}"
         run: |
           ../carton exec -- perl build.pl
       - name: upload the binary to release
@@ -283,12 +283,12 @@ jobs:
           ./build-openssl-win32.sh
       - name: install dependencies
         working-directory: windows
-        shell: cmd
+        shell: "msys2 {0}"
         run: |
           ../carton install --deployment
       - name: build Perl
         working-directory: windows
-        shell: cmd
+        shell: "msys2 {0}"
         run: |
           ../carton exec -- perl build.pl
       - name: upload the binary to release
