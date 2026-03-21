@@ -230,10 +230,10 @@ jobs:
       - name: gcc --version
         shell: "msys2 {0}"
         run: gcc --version
-        # - name: build OpenSSL
-        #   shell: "msys2 {0}"
-        #   run: |
-        #     ./build-openssl-win32.sh
+      - name: build OpenSSL
+        shell: "msys2 {0}"
+        run: |
+          ./build-openssl-win32.sh
       - name: setup host perl
         shell: bash
         run: |
@@ -292,10 +292,10 @@ jobs:
       - name: gcc --version
         shell: "msys2 {0}"
         run: gcc --version
-        # - name: build OpenSSL
-        #   shell: "msys2 {0}"
-        #   run: |
-        #     ./build-openssl-win32.sh
+      - name: build OpenSSL
+        shell: "msys2 {0}"
+        run: |
+          ./build-openssl-win32.sh
       - name: setup host perl
         shell: bash
         run: |
