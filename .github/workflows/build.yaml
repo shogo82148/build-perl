@@ -241,8 +241,10 @@ jobs:
       - name: build Perl
         working-directory: windows
         shell: cmd
+        env:
+          PERL5LIB: ${{ github.workspace }}/windows/local/lib/perl5
         run: |
-          ../carton exec -- perl build.pl
+          perl build.pl
       - name: upload the binary to release
         shell: bash
         run: |
@@ -289,8 +291,10 @@ jobs:
       - name: build Perl
         working-directory: windows
         shell: cmd
+        env:
+          PERL5LIB: ${{ github.workspace }}/windows/local/lib/perl5
         run: |
-          ../carton exec -- perl build.pl
+          perl build.pl
       - name: upload the binary to release
         shell: bash
         run: |
