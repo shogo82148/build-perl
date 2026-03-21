@@ -228,6 +228,7 @@ jobs:
       - name: Host perl -V
         run: perl -V
       - name: gcc --version
+        shell: "msys2 {0}"
         run: gcc --version
         # - name: build OpenSSL
         #   shell: "msys2 {0}"
@@ -241,6 +242,9 @@ jobs:
           C:\strawberry\perl\site\bin
           C:\strawberry\perl\bin
           END_OF_PATH
+      - name: gcc --version
+        shell: cmd
+        run: gcc --version
       - name: install dependencies
         working-directory: windows
         shell: cmd
@@ -286,6 +290,7 @@ jobs:
       - name: Host perl -V
         run: perl -V
       - name: gcc --version
+        shell: "msys2 {0}"
         run: gcc --version
         # - name: build OpenSSL
         #   shell: "msys2 {0}"
@@ -299,6 +304,9 @@ jobs:
           C:\strawberry\perl\site\bin
           C:\strawberry\perl\bin
           END_OF_PATH
+      - name: gcc --version
+        shell: cmd
+        run: gcc --version
       - name: install dependencies
         working-directory: windows
         shell: cmd
