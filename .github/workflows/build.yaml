@@ -79,6 +79,17 @@ jobs:
         working-directory: linux
         run: |
           ../carton exec -- perl build.pl
+      - name: upload the binary to release
+        run: |
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: attest the release
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: ${{ runner.temp }}/*.tar.zstd
 
   build-linux-thr:
     name: build Linux Perl with multi-threading
@@ -108,6 +119,17 @@ jobs:
         working-directory: linux
         run: |
           ../carton exec -- perl build.pl
+      - name: upload the binary to release
+        run: |
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: attest the release
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: ${{ runner.temp }}/*.tar.zstd
 
   build-darwin:
     name: build Darwin Perl non-threaded
@@ -136,6 +158,17 @@ jobs:
         working-directory: darwin
         run: |
           ../carton exec -- perl build.pl
+      - name: upload the binary to release
+        run: |
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: attest the release
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: ${{ runner.temp }}/*.tar.zstd
 
   build-darwin-thr:
     name: build Darwin Perl with multi-threading
@@ -165,6 +198,17 @@ jobs:
         working-directory: darwin
         run: |
           ../carton exec -- perl build.pl
+      - name: upload the binary to release
+        run: |
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: attest the release
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: ${{ runner.temp }}/*.tar.zstd
 
   build-windows:
     name: build Windows Perl non-threaded
@@ -196,6 +240,17 @@ jobs:
         working-directory: windows
         run: |
           ../carton exec -- perl build.pl
+      - name: upload the binary to release
+        run: |
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.zip
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: attest the release
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: ${{ runner.temp }}/*.zip
 
   build-windows-thr:
     name: build Windows Perl with multi-threading
@@ -228,6 +283,17 @@ jobs:
         working-directory: windows
         run: |
           ../carton exec -- perl build.pl
+      - name: upload the binary to release
+        run: |
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.zip
+        env:
+          PERL_VERSION: ${{ matrix.perl }}
+          SUFFIX: ${{ needs.list.outputs.suffix }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: attest the release
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: ${{ runner.temp }}/*.zip
 
   publish-releases:
     runs-on: ubuntu-latest
