@@ -69,16 +69,6 @@ my $install_dir = File::Spec->rel2abs(
     File::Spec->catdir($runner_tool_cache, "perl", $version . ($thread ? "-thr" : ""), $arch));
 my $perl = File::Spec->catfile($install_dir, 'bin', 'perl');
 
-# read cpanfile snapshot
-my $snapshot = do {
-    my $cpanfile = File::Spec->catdir($FindBin::Bin, "..", "common", "cpanfile.snapshot");
-    open my $fh, "<", $cpanfile or die "failed to open cpanfile.snapshot: $!";
-    local $/;
-    my $snapshot = <$fh>;
-    close $fh;
-    $snapshot;
-};
-
 sub execute_or_die {
     my $code = system(@_);
     if ($code != 0) {
