@@ -241,8 +241,10 @@ jobs:
         run: |
           ../carton exec -- perl build.pl
       - name: upload the binary to release
+        shell: bash
         run: |
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.zip
+          TEMP_DIR=$(cygpath "$RUNNER_TEMP")
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -284,8 +286,10 @@ jobs:
         run: |
           ../carton exec -- perl build.pl
       - name: upload the binary to release
+        shell: bash
         run: |
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.zip
+          TEMP_DIR=$(cygpath "$RUNNER_TEMP")
+          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
