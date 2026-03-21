@@ -233,6 +233,14 @@ jobs:
         #   shell: "msys2 {0}"
         #   run: |
         #     ./build-openssl-win32.sh
+      - name: setup host perl
+        shell: bash
+        run: |
+          cat << 'END_OF_PATH' >> "$GITHUB_PATH"
+          C:\strawberry\c\bin
+          C:\strawberry\perl\site\bin
+          C:\strawberry\perl\bin
+          END_OF_PATH
       - name: install dependencies
         working-directory: windows
         shell: cmd
@@ -283,6 +291,14 @@ jobs:
         #   shell: "msys2 {0}"
         #   run: |
         #     ./build-openssl-win32.sh
+      - name: setup host perl
+        shell: bash
+        run: |
+          cat << 'END_OF_PATH' >> "$GITHUB_PATH"
+          C:\strawberry\c\bin
+          C:\strawberry\perl\site\bin
+          C:\strawberry\perl\bin
+          END_OF_PATH
       - name: install dependencies
         working-directory: windows
         shell: cmd
