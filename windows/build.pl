@@ -264,7 +264,8 @@ sub run {
         # NOTE:
         # IO::Socket::SSL supports v5.8.1, but it doesn't work on Windows
         # https://github.com/shogo82148/actions-setup-perl/pull/480#issuecomment-735391122
-        cpan_install('https://cpan.metacpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-2.084.tar.gz', 'IO-Socket-SSL', 'IO::Socket::SSL', '5.8.1');
+        # https://github.com/shogo82148/build-perl/issues/9
+        cpan_install('https://cpan.metacpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-2.084.tar.gz', 'IO-Socket-SSL', 'IO::Socket::SSL', '5.8.7');
 
         # Test::Harness
         cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.48.tar.gz', 'Test-Harness', 'Test::Harness', '5.6.0', '5.8.3');
