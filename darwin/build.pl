@@ -49,25 +49,24 @@ if (version->parse("v$version") >= version->parse("v5.42.0")) {
 
 if (version->parse("v$version") >= version->parse("v5.8.9") &&
     version->parse("v$version") <= version->parse("v5.10.0")) {
-    # monkey patch Devel::PatchPerl::_patch_dbfile_clang to fix mkppport.lst
-    # patching on Darwin. The upstream function fails because mkppport.lst on
-    # Darwin does not contain ext/Win32API/File (a Windows-only extension)
-    # which is used as context in the patch.
+    # monkey patch Devel::PatchPerl::_patch to fix mkppport.lst patching on Darwin.
+    # Devel::PatchPerl::_patch_dbfile_clang uses ext/Win32API/File as context in
+    # its mkppport.lst diff, which doesn't exist on Darwin, causing patch(1) to fail.
+    # Replacing _patch_dbfile_clang doesn't work because it is captured by reference
+    # in Devel::PatchPerl's @patch array at compile time. Instead, we override _patch,
+    # which is called by name (dynamically) from _patch_b64, so the replacement takes
+    # effect at runtime.
     # https://github.com/bingos/devel-patchperl/issues/65
     no warnings 'redefine';
     no strict 'refs';
-    *Devel::PatchPerl::_patch_dbfile_clang = sub {
-        my $perlver = shift;
-        my $num = Devel::PatchPerl::_norm_ver($perlver);
-        return unless $num > 5.008008;
-        return unless $num < 5.010001;
-
-        # Add ext/DB_File to mkppport.lst using Perl file I/O instead of
-        # the patch utility, which fails on Darwin because ext/Win32API/File
-        # is missing from the file.
-        {
+    my $orig_patch = \&Devel::PatchPerl::_patch;
+    *Devel::PatchPerl::_patch = sub {
+        my ($patch) = @_;
+        if ($patch =~ /^\+{3}\s+mkppport\.lst\b/m) {
+            # The upstream patch uses ext/Win32API/File as context, which doesn't
+            # exist on Darwin. Use file I/O to append ext/DB_File instead.
+            print "patching mkppport.lst\n";
             my $file = 'mkppport.lst';
-            print "patching $file\n";
             my $content = do {
                 local $/;
                 open my $fh, '<', $file or die "Can't open $file: $!";
@@ -80,27 +79,9 @@ if (version->parse("v$version") >= version->parse("v5.8.9") &&
                 print $fh "ext/DB_File\n";
                 close $fh;
             }
+            return;
         }
-
-        # Patch ext/DB_File/DB_File.xs to include ppport.h unconditionally
-        # instead of only when _NOT_CORE is defined.
-        {
-            my $file = 'ext/DB_File/DB_File.xs';
-            print "patching $file\n";
-            my $content = do {
-                local $/;
-                open my $fh, '<', $file or die "Can't open $file: $!";
-                my $data = <$fh>;
-                close $fh;
-                $data;
-            };
-            $content =~ s|#ifdef _NOT_CORE\n#  include "ppport\.h"\n#endif|#include "ppport.h"|;
-            open my $fh, '>', $file or die "Can't open $file for writing: $!";
-            print $fh $content;
-            close $fh;
-        }
-
-        # ext/DB_File/Makefile.PL is handled by the GitHubActions plugin.
+        $orig_patch->(@_);
     };
 }
 
