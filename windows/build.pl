@@ -165,8 +165,7 @@ sub run {
     {
         say "::group::unarchiving perl-$version";
         my $dir = pushd($tmpdir);
-        execute_or_die('7z', 'x', $filename);
-        execute_or_die('7z', 'x', $filename =~ s/\.tar\.gz$/.tar/r);
+        execute_or_die("7z x $filename -so | 7z x -si -ttar");
         say "::endgroup::";
     }
 
