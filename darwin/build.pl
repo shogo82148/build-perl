@@ -75,6 +75,7 @@ if (version->parse("v$version") >= version->parse("v5.8.9") &&
                 $data;
             };
             unless ($content =~ /^ext\/DB_File\b/m) {
+                chmod 0644, $file or die "Can't chmod $file: $!";
                 open my $fh, '>>', $file or die "Can't open $file for append: $!";
                 print $fh "ext/DB_File\n";
                 close $fh;
