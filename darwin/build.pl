@@ -47,6 +47,63 @@ if (version->parse("v$version") >= version->parse("v5.42.0")) {
     };
 }
 
+if (version->parse("v$version") >= version->parse("v5.8.9") &&
+    version->parse("v$version") <= version->parse("v5.10.0")) {
+    # monkey patch Devel::PatchPerl::_patch_dbfile_clang to fix mkppport.lst
+    # patching on Darwin. The upstream function fails because mkppport.lst on
+    # Darwin does not contain ext/Win32API/File (a Windows-only extension)
+    # which is used as context in the patch.
+    # https://github.com/bingos/devel-patchperl/issues/65
+    no warnings 'redefine';
+    no strict 'refs';
+    *Devel::PatchPerl::_patch_dbfile_clang = sub {
+        my $perlver = shift;
+        my $num = Devel::PatchPerl::_norm_ver($perlver);
+        return unless $num > 5.008008;
+        return unless $num < 5.010001;
+
+        # Add ext/DB_File to mkppport.lst using Perl file I/O instead of
+        # the patch utility, which fails on Darwin because ext/Win32API/File
+        # is missing from the file.
+        {
+            my $file = 'mkppport.lst';
+            print "patching $file\n";
+            my $content = do {
+                local $/;
+                open my $fh, '<', $file or die "Can't open $file: $!";
+                my $data = <$fh>;
+                close $fh;
+                $data;
+            };
+            unless ($content =~ /^ext\/DB_File\b/m) {
+                open my $fh, '>>', $file or die "Can't open $file for append: $!";
+                print $fh "ext/DB_File\n";
+                close $fh;
+            }
+        }
+
+        # Patch ext/DB_File/DB_File.xs to include ppport.h unconditionally
+        # instead of only when _NOT_CORE is defined.
+        {
+            my $file = 'ext/DB_File/DB_File.xs';
+            print "patching $file\n";
+            my $content = do {
+                local $/;
+                open my $fh, '<', $file or die "Can't open $file: $!";
+                my $data = <$fh>;
+                close $fh;
+                $data;
+            };
+            $content =~ s|#ifdef _NOT_CORE\n#  include "ppport\.h"\n#endif|#include "ppport.h"|;
+            open my $fh, '>', $file or die "Can't open $file for writing: $!";
+            print $fh $content;
+            close $fh;
+        }
+
+        # ext/DB_File/Makefile.PL is handled by the GitHubActions plugin.
+    };
+}
+
 my $tmpdir = File::Spec->rel2abs($ENV{RUNNER_TEMP} || "tmp");
 make_path($tmpdir);
 my $runner_tool_cache = $tmpdir;
