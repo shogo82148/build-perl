@@ -238,8 +238,8 @@ sub run {
 
         # YAML::XS
         # workaround for https://github.com/shogo82148/build-perl/issues/12
-        # YAML::XS 0.88 doesn't work with perl 5.10.0.
-        cpan_install('https://cpan.metacpan.org/authors/id/I/IN/INGY/YAML-LibYAML-0.88.tar.gz', 'YAML-LibYAML', 'YAML::XS', '5.8.1', '5.10.0');
+        # YAML::XS 0.88 doesn't work with perl 5.10.0, 5.8.9.
+        cpan_install('https://cpan.metacpan.org/authors/id/I/IN/INGY/YAML-LibYAML-0.88.tar.gz', 'YAML-LibYAML', 'YAML::XS', '5.8.1', '5.8.9');
         cpan_install('https://cpan.metacpan.org/authors/id/I/IN/INGY/YAML-LibYAML-0.88.tar.gz', 'YAML-LibYAML', 'YAML::XS', '5.10.1');
 
         ### SSL/TLS
