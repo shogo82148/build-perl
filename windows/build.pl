@@ -215,8 +215,10 @@ sub run {
         say "::group::installing CPAN modules";
 
         # Win32
-        cpan_install('https://cpan.metacpan.org/authors/id/J/JD/JDB/Win32-0.59.tar.gz', 'Win32', 'Win32', '5.6.0', '5.8.3');
-                # JSON
+        # Win32::API doesn't work on perl 5.8.0, so skip installing it. workaround for https://github.com/shogo82148/build-perl/issues/10
+        cpan_install('https://cpan.metacpan.org/authors/id/J/JD/JDB/Win32-0.59.tar.gz', 'Win32', 'Win32', '5.6.0', '5.8.0');
+
+        # JSON
         cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz', 'JSON', 'JSON', '5.5.3');
 
         # Cpanel::JSON::XS
