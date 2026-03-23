@@ -182,7 +182,8 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-PP-4.16.tar.gz', 'JSON-PP', 'JSON::PP', '5.8.1');
 
         # JSON::MaybeXS
-        cpan_install('https://cpan.metacpan.org/authors/id/E/ET/ETHER/JSON-MaybeXS-1.004005.tar.gz', 'JSON-MaybeXS', 'JSON::MaybeXS', '5.6.0');
+        # JSON::MaybeXS doesn't work with perl 5.6.1, skip it. workaround for https://github.com/shogo82148/build-perl/issues/15
+        cpan_install('https://cpan.metacpan.org/authors/id/E/ET/ETHER/JSON-MaybeXS-1.004005.tar.gz', 'JSON-MaybeXS', 'JSON::MaybeXS', '5.6.2');
 
         # YAML
         cpan_install('https://cpan.metacpan.org/authors/id/I/IN/INGY/YAML-1.31.tar.gz', 'YAML', 'YAML', '5.8.1');
