@@ -219,7 +219,8 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/J/JD/JDB/Win32-0.59.tar.gz', 'Win32', 'Win32', '5.6.0', '5.8.0');
 
         # JSON
-        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz', 'JSON', 'JSON', '5.5.3');
+        # JSON doesn't work with perl 5.6.x, skip it. https://github.com/shogo82148/build-perl/issues/3
+        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz', 'JSON', 'JSON', '5.8.0');
 
         # Cpanel::JSON::XS
         cpan_install('https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Cpanel-JSON-XS-4.37.tar.gz', 'Cpanel-JSON-XS', 'Cpanel::JSON::XS', '5.6.2');
