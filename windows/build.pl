@@ -214,10 +214,6 @@ sub run {
     {
         say "::group::installing CPAN modules";
 
-        # Win32
-        # Win32::API doesn't work on perl 5.8.0, so skip installing it. workaround for https://github.com/shogo82148/build-perl/issues/10
-        cpan_install('https://cpan.metacpan.org/authors/id/J/JD/JDB/Win32-0.59.tar.gz', 'Win32', 'Win32', '5.6.0', '5.8.0');
-
         # JSON
         # JSON doesn't work with perl 5.6.x, skip it. https://github.com/shogo82148/build-perl/issues/3
         cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz', 'JSON', 'JSON', '5.8.0');
@@ -272,10 +268,8 @@ sub run {
 
         # requirements of Module::CoreList
         # version doesn't work with perl 5.8.0. skip it. workaround for https://github.com/shogo82148/build-perl/issues/2
-        cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/version-0.9930.tar.gz', 'version', 'version', '5.6.0', '5.8.0');
         cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/version-0.9930.tar.gz', 'version', 'version', '5.8.1', '5.8.9');
         # Module::CoreList
-        cpan_install('https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-CoreList-5.20231230.tar.gz', 'Module-CoreList', 'Module::CoreList', '5.6.0', '5.8.0');
         cpan_install('https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-CoreList-5.20231230.tar.gz', 'Module-CoreList', 'Module::CoreList', '5.8.1', '5.8.9');
 
         say "::endgroup::";
