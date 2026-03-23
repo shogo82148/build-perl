@@ -271,9 +271,12 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.48.tar.gz', 'Test-Harness', 'Test::Harness', '5.6.0', '5.8.3');
 
         # requirements of Module::CoreList
-        cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/version-0.9930.tar.gz', 'version', 'version', '5.6.0', '5.8.9');
+        # version doesn't work with perl 5.8.0. skip it. workaround for https://github.com/shogo82148/build-perl/issues/2
+        cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/version-0.9930.tar.gz', 'version', 'version', '5.6.0', '5.8.0');
+        cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/version-0.9930.tar.gz', 'version', 'version', '5.8.1', '5.8.9');
         # Module::CoreList
-        cpan_install('https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-CoreList-5.20231230.tar.gz', 'Module-CoreList', 'Module::CoreList', '5.6.0', '5.8.9');
+        cpan_install('https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-CoreList-5.20231230.tar.gz', 'Module-CoreList', 'Module::CoreList', '5.6.0', '5.8.0');
+        cpan_install('https://cpan.metacpan.org/authors/id/B/BI/BINGOS/Module-CoreList-5.20231230.tar.gz', 'Module-CoreList', 'Module::CoreList', '5.8.1', '5.8.9');
 
         say "::endgroup::";
     }
