@@ -246,7 +246,7 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/C/CH/CHRISN/Net-SSLeay-1.96.tar.gz', 'Net-SSLeay', 'Net::SSLeay', '5.8.1');
 
         # Mozilla::CA
-        cpan_install('https://cpan.metacpan.org/authors/id/L/LW/LWP/Mozilla-CA-20231213.tar.gz', 'Mozilla-CA', 'Mozilla::CA', '5.6.0');
+        cpan_install('https://cpan.metacpan.org/authors/id/L/LW/LWP/Mozilla-CA-20260813.tar.gz', 'Mozilla-CA', 'Mozilla::CA', '5.6.0');
 
         # IO::Socket::SSL
         cpan_install('https://cpan.metacpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-2.084.tar.gz', 'IO-Socket-SSL', 'IO::Socket::SSL', '5.8.1');
