@@ -220,7 +220,7 @@ sub run {
 
         # some requirements of JSON::PP
         cpan_install('https://cpan.metacpan.org/authors/id/C/CO/CORION/parent-0.244.tar.gz', 'parent', 'parent', '5.8.1', '5.10.1');
-        cpan_install('https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Scalar-List-Utils-1.63.tar.gz', 'Scalar-List-Utils', 'Scalar::Util', '5.8.1', '5.8.1');
+        cpan_install('https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Scalar-List-Utils-1.70.tar.gz', 'Scalar-List-Utils', 'Scalar::Util', '5.8.1', '5.8.1');
         # JSON::PP
         cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-PP-4.16.tar.gz', 'JSON-PP', 'JSON::PP', '5.8.1');
 
