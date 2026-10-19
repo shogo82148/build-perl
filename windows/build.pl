@@ -216,20 +216,20 @@ sub run {
 
         # JSON
         # JSON doesn't work with perl 5.6.x, skip it. https://github.com/shogo82148/build-perl/issues/3
-        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz', 'JSON', 'JSON', '5.8.0');
+        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.11.tar.gz', 'JSON', 'JSON', '5.8.0');
 
         # Cpanel::JSON::XS
-        cpan_install('https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Cpanel-JSON-XS-4.37.tar.gz', 'Cpanel-JSON-XS', 'Cpanel::JSON::XS', '5.6.2');
+        cpan_install('https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Cpanel-JSON-XS-4.80.tar.gz', 'Cpanel-JSON-XS', 'Cpanel::JSON::XS', '5.6.2');
 
         # some requirements of JSON::XS
         cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Canary-Stability-2013.tar.gz', 'Canary-Stability', 'Canary::Stability', '5.8.3');
         cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/common-sense-3.75.tar.gz', 'common-sense', 'common::sense', '5.8.3');
         cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-1.01.tar.gz', 'Types-Serialiser', 'Types::Serialiser', '5.8.3');
         # JSON::XS
-        cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/JSON-XS-4.03.tar.gz', 'JSON-XS', 'JSON::XS', '5.8.3');
+        cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/JSON-XS-4.04.tar.gz', 'JSON-XS', 'JSON::XS', '5.8.3');
 
         # some requirements of JSON::PP
-        cpan_install('https://cpan.metacpan.org/authors/id/C/CO/CORION/parent-0.241.tar.gz', 'parent', 'parent', '5.8.1', '5.10.1');
+        cpan_install('https://cpan.metacpan.org/authors/id/C/CO/CORION/parent-0.244.tar.gz', 'parent', 'parent', '5.8.1', '5.10.1');
         cpan_install('https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Scalar-List-Utils-1.70.tar.gz', 'Scalar-List-Utils', 'Scalar::Util', '5.8.1', '5.8.1');
         # JSON::PP
         cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-PP-4.16.tar.gz', 'JSON-PP', 'JSON::PP', '5.8.1');
