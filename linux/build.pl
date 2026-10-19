@@ -208,7 +208,7 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-2.084.tar.gz', 'IO-Socket-SSL', 'IO::Socket::SSL', '5.8.1');
 
         # Test::Harness
-        cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.48.tar.gz', 'Test-Harness', 'Test::Harness', '5.6.0', '5.8.3');
+        cpan_install('https://cpan.metacpan.org/authors/id/L/LE/LEONT/Test-Harness-3.52.tar.gz', 'Test-Harness', 'Test::Harness', '5.6.0', '5.8.3');
 
         # requirements of Module::CoreList
         # version doesn't work with perl 5.8.0. skip it. workaround for https://github.com/shogo82148/build-perl/issues/2
