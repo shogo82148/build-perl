@@ -232,7 +232,7 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/T/TI/TINITA/YAML-1.321.tar.gz', 'YAML', 'YAML', '5.8.1');
 
         # YAML::Tiny
-        cpan_install('https://cpan.metacpan.org/authors/id/E/ET/ETHER/YAML-Tiny-1.74.tar.gz', 'YAML-Tiny', 'YAML::Tiny', '5.8.1');
+        cpan_install('https://cpan.metacpan.org/authors/id/E/ET/ETHER/YAML-Tiny-1.76.tar.gz', 'YAML-Tiny', 'YAML::Tiny', '5.8.1');
 
         # YAML::XS
         # workaround for https://github.com/shogo82148/build-perl/issues/12
