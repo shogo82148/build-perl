@@ -216,7 +216,7 @@ sub run {
         cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/common-sense-3.75.tar.gz', 'common-sense', 'common::sense', '5.8.3');
         cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Types-Serialiser-1.01.tar.gz', 'Types-Serialiser', 'Types::Serialiser', '5.8.3');
         # JSON::XS
-        cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/JSON-XS-4.03.tar.gz', 'JSON-XS', 'JSON::XS', '5.8.3');
+        cpan_install('https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/JSON-XS-4.04.tar.gz', 'JSON-XS', 'JSON::XS', '5.8.3');
 
         # some requirements of JSON::PP
         cpan_install('https://cpan.metacpan.org/authors/id/C/CO/CORION/parent-0.241.tar.gz', 'parent', 'parent', '5.8.1', '5.10.1');
