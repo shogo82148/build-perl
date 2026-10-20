@@ -81,8 +81,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          # --clobber makes retries idempotent: the asset may already exist if a previous attempt succeeded but its response was lost.
-          gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd || gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -122,8 +121,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          # --clobber makes retries idempotent: the asset may already exist if a previous attempt succeeded but its response was lost.
-          gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd || gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -162,8 +160,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          # --clobber makes retries idempotent: the asset may already exist if a previous attempt succeeded but its response was lost.
-          gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd || gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -203,8 +200,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          # --clobber makes retries idempotent: the asset may already exist if a previous attempt succeeded but its response was lost.
-          gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd || gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -265,8 +261,7 @@ jobs:
         shell: bash
         run: |
           TEMP_DIR=$(cygpath "$RUNNER_TEMP")
-          # --clobber makes retries idempotent: the asset may already exist if a previous attempt succeeded but its response was lost.
-          gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip || gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -328,8 +323,7 @@ jobs:
         shell: bash
         run: |
           TEMP_DIR=$(cygpath "$RUNNER_TEMP")
-          # --clobber makes retries idempotent: the asset may already exist if a previous attempt succeeded but its response was lost.
-          gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip || gh release upload --clobber "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
