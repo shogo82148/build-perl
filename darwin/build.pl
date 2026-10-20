@@ -206,7 +206,10 @@ sub run {
 
         # JSON
         # JSON doesn't work with perl 5.6.x, skip it. https://github.com/shogo82148/build-perl/issues/3
-        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.11.tar.gz', 'JSON', 'JSON', '5.8.0');
+        # JSON 4.11 requires Scalar::Util 1.08 or later (for refaddr), but perl 5.8.0 has Scalar::Util 1.07.
+        # use JSON 4.10 for perl 5.8.0.
+        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.10.tar.gz', 'JSON', 'JSON', '5.8.0', '5.8.1');
+        cpan_install('https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.11.tar.gz', 'JSON', 'JSON', '5.8.1');
 
         # Cpanel::JSON::XS
         cpan_install('https://cpan.metacpan.org/authors/id/R/RU/RURBAN/Cpanel-JSON-XS-4.80.tar.gz', 'Cpanel-JSON-XS', 'Cpanel::JSON::XS', '5.6.2');
