@@ -81,7 +81,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -121,7 +121,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -160,7 +160,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -200,7 +200,7 @@ jobs:
           ../carton exec -- perl build.pl
       - name: upload the binary to release
         run: |
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$RUNNER_TEMP"/*.tar.zstd
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -261,7 +261,7 @@ jobs:
         shell: bash
         run: |
           TEMP_DIR=$(cygpath "$RUNNER_TEMP")
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
@@ -323,7 +323,7 @@ jobs:
         shell: bash
         run: |
           TEMP_DIR=$(cygpath "$RUNNER_TEMP")
-          gh release upload "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
+          ./upload-release-asset.sh "perl-$PERL_VERSION-$SUFFIX" "$TEMP_DIR"/*.zip
         env:
           PERL_VERSION: ${{ matrix.perl }}
           SUFFIX: ${{ needs.list.outputs.suffix }}
