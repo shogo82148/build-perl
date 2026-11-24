@@ -222,7 +222,7 @@ jobs:
       PERL_VERSION: ${{ matrix.perl }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: msys2/setup-msys2@v2.33.0
+      - uses: msys2/setup-msys2@v2.34.0
         with:
           install: make mingw-w64-x86_64-gcc nasm perl
       - name: Host perl -V
@@ -284,7 +284,7 @@ jobs:
       PERL_MULTI_THREAD: "1"
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: msys2/setup-msys2@v2.33.0
+      - uses: msys2/setup-msys2@v2.34.0
         with:
           install: make mingw-w64-x86_64-gcc nasm perl
       - name: Host perl -V
