@@ -6,7 +6,7 @@ workflows:
     '.github/workflows/build.yaml':
         - 'actions/attest@v4.2.2'
         - 'actions/checkout@v7.0.1'
-        - 'msys2/setup-msys2@v2.33.0'
+        - 'msys2/setup-msys2@v2.34.0'
 dependencies:
     'actions/attest@v4.2.2':
         ref: 'v4.2.2'
@@ -18,8 +18,8 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'msys2/setup-msys2@v2.33.0':
-        ref: 'v2.33.0'
-        commit: 'sha1-ec48f7c5447b3140e2b088413ae3a55687bccb6e'
+    'msys2/setup-msys2@v2.34.0':
+        ref: 'v2.34.0'
+        commit: 'sha1-3c51bf698df1e37b2261f53cb67797b97761185c'
         owner_id: 6759993
         repo_id: 213203501
